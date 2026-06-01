@@ -22,7 +22,32 @@
     "vscode": "^1.85.0"
   },
   "categories": [
+    "Programming Languages",
+    "Visualization",
     "Other"
+  ],
+  "keywords": [
+    "java",
+    "jpa",
+    "hibernate",
+    "hibernate-mapping",
+    "hbm",
+    "hbm.xml",
+    "entity",
+    "entities",
+    "domain-model",
+    "erd",
+    "diagram",
+    "graph",
+    "visualization",
+    "relationships",
+    "orm",
+    "persistence",
+    "spring",
+    "spring-boot",
+    "maven",
+    "open-vsx",
+    "cursor"
   ],
   "activationEvents": [
     "onView:entityViewer.packages",
