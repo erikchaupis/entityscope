@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.entityviewer.inventory.Warehouse" table="WAREHOUSES">
+    <id name="id" column="WAREHOUSE_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="code" column="CODE" type="string" not-null="true"/>
+    <property name="location" column="LOCATION" type="string"/>
+
+    <set name="products" inverse="true" cascade="all">
+      <key column="WAREHOUSE_ID"/>
+      <one-to-many class="com.entityviewer.inventory.Product"/>
+    </set>
+  </class>
+</hibernate-mapping>

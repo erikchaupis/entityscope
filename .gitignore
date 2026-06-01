@@ -1,0 +1,57 @@
+# =============================================================================
+# EntityScope — Git ignore rules
+# Everything NOT listed below is intended to be committed (source, samples,
+# media assets, lockfiles, README, .vscode/launch.json, etc.).
+# =============================================================================
+
+# --- Dependencies (reinstall with: npm run install:all) ---
+node_modules/
+**/node_modules/
+
+# --- Build outputs (regenerate with: npm run build) ---
+dist/
+webview-ui/dist/
+out/
+*.tsbuildinfo
+
+# --- Packaged extension (regenerate with: vsce package / npx @vscode/vsce package) ---
+*.vsix
+
+# --- Logs & local env ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.*
+!.env.example
+
+# --- OS junk ---
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- VS Code / Cursor local (keep shared debug config) ---
+.vscode-test/
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# --- Editor / agent caches (do not commit machine-local state) ---
+.cursor/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Test & coverage ---
+coverage/
+.nyc_output/
+
+# --- Generated branding intermediates (sources kept: icon.png, entityscope-branding.png) ---
+media/icon-crop.png
+media/activity-icon.png

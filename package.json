@@ -1,0 +1,128 @@
+{
+  "name": "entity-viewer",
+  "displayName": "EntityScope",
+  "description": "EntityScope — interactive domain model explorer for JPA and Hibernate XML entity mappings in VS Code and Cursor.",
+  "version": "0.1.0",
+  "publisher": "entity-viewer",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/erikchaupis/entityscope#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikchaupis/entityscope.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erikchaupis/entityscope/issues"
+  },
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1e3a5f",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:entityViewer.packages",
+    "onCommand:entityViewer.open",
+    "onCommand:entityViewer.refresh",
+    "onLanguage:java",
+    "workspaceContains:**/*.hbm.xml"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "entityViewer.open",
+        "title": "Open Domain Model",
+        "category": "EntityScope",
+        "icon": "$(type-hierarchy)"
+      },
+      {
+        "command": "entityViewer.refresh",
+        "title": "Refresh Model",
+        "category": "EntityScope",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "entityViewer.focusCurrent",
+        "title": "Select Current Entity",
+        "category": "EntityScope"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "entityViewer",
+          "title": "EntityScope",
+          "icon": "media/entity-scope.svg"
+        }
+      ]
+    },
+    "views": {
+      "entityViewer": [
+        {
+          "id": "entityViewer.packages",
+          "name": "Packages"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "entityViewer.open",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "entityViewer.refresh",
+          "when": "workspaceFolderCount > 0"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "entityViewer.open",
+          "when": "view == entityViewer.packages",
+          "group": "navigation@1"
+        },
+        {
+          "command": "entityViewer.refresh",
+          "when": "view == entityViewer.packages",
+          "group": "navigation@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "entityViewer.open",
+          "when": "resourceExtname == .java || resourceExtname == .xml && resourceFilename =~ /\\.hbm\\.xml$/",
+          "group": "navigation@10"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "entityViewer.open",
+          "when": "resourceExtname == .java || resourceExtname == .xml && resourceFilename =~ /\\.hbm\\.xml$/",
+          "group": "navigation@10"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run build:extension && npm run build:webview",
+    "build:extension": "node esbuild.js",
+    "build:webview": "cd webview-ui && npm run build",
+    "watch": "node esbuild.js --watch",
+    "watch:webview": "cd webview-ui && npm run dev",
+    "install:all": "npm install && cd webview-ui && npm install",
+    "validate:hibernate-sample": "tsx scripts/validate-hibernate-sample.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.20.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.3.3"
+  }
+}

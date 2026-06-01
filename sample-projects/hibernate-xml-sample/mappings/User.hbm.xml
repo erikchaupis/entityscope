@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.entityviewer.customer">
+  <class name="com.entityviewer.customer.User" table="USERS">
+    <id name="id" column="USER_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="email" column="EMAIL" type="string" not-null="true"/>
+    <property name="name" column="NAME" type="string"/>
+
+    <set name="tags" table="USER_TAGS" cascade="all">
+      <key column="USER_ID"/>
+      <element column="TAG" type="string"/>
+    </set>
+
+    <set name="addresses" inverse="true" cascade="all">
+      <key column="USER_ID"/>
+      <one-to-many class="com.entityviewer.customer.Address"/>
+    </set>
+
+    <set name="orders" inverse="true" cascade="all">
+      <key column="USER_ID"/>
+      <one-to-many class="com.entityviewer.order.Order"/>
+    </set>
+  </class>
+</hibernate-mapping>

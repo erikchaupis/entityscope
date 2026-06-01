@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.entityviewer.order.Order" table="ORDERS">
+    <id name="id" column="ORDER_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="orderDate" column="ORDER_DATE" type="timestamp"/>
+    <property name="status" column="STATUS" type="string"/>
+
+    <many-to-one name="user" class="com.entityviewer.customer.User" column="USER_ID" not-null="true"/>
+
+    <set name="items" cascade="all" inverse="false">
+      <key column="ORDER_ID"/>
+      <one-to-many class="com.entityviewer.order.OrderItem"/>
+    </set>
+
+    <one-to-one name="payment" class="com.entityviewer.billing.Payment" cascade="all"/>
+  </class>
+</hibernate-mapping>

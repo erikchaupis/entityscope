@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.entityviewer.billing.Payment" table="PAYMENTS">
+    <id name="id" column="PAYMENT_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="amount" column="AMOUNT" type="big_decimal"/>
+    <property name="method" column="METHOD" type="string"/>
+    <property name="paidAt" column="PAID_AT" type="timestamp"/>
+
+    <one-to-one name="invoice" class="com.entityviewer.billing.Invoice" cascade="all"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.entityviewer.customer.Address" table="ADDRESSES">
+    <id name="id" column="ADDRESS_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="street" column="STREET" type="string"/>
+    <property name="city" column="CITY" type="string"/>
+    <property name="zipCode" column="ZIP_CODE" type="string"/>
+
+    <many-to-one name="user" class="com.entityviewer.customer.User" column="USER_ID" not-null="true"/>
+  </class>
+</hibernate-mapping>

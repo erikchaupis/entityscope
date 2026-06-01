@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.entityviewer.order.OrderItem" table="ORDER_ITEMS">
+    <id name="id" column="ORDER_ITEM_ID" type="long">
+      <generator class="native"/>
+    </id>
+    <property name="quantity" column="QUANTITY" type="integer"/>
+    <property name="unitPrice" column="UNIT_PRICE" type="big_decimal"/>
+
+    <many-to-one name="order" class="com.entityviewer.order.Order" column="ORDER_ID" not-null="true"/>
+    <many-to-one name="product" class="com.entityviewer.inventory.Product" column="PRODUCT_ID" not-null="true"/>
+  </class>
+</hibernate-mapping>
