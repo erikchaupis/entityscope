@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="media/logo-horizontal.png" alt="EntityScope" width="480" />
+  <img src="media/logo.jpeg" alt="EntityScope" width="480" />
 </p>
 
 <p align="center">
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="media/icon.png" alt="EntityScope icon" width="96" />
+  <img src="media/icon.jpeg" alt="EntityScope icon" width="96" />
 </p>
 
 EntityScope scans Java projects, discovers entities and their relationships, and renders an interactive graph for domain exploration — not UML generation.
