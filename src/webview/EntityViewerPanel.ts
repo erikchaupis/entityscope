@@ -144,7 +144,7 @@ export class EntityViewerPanel {
     );
 
     const nonce = getNonce();
-    const initialTheme = 'cursor-light';
+    const initialTheme = 'light';
 
     return `<!DOCTYPE html>
 <html lang="en" data-theme="${initialTheme}">
@@ -180,7 +180,7 @@ function getNonce(): string {
   return text;
 }
 
-type AppTheme = 'graphite-dark' | 'cursor-light' | 'cursor-dark';
+type AppTheme = 'light' | 'dark' | 'graphite';
 
 function resolveAppTheme(): AppTheme {
   const kind = vscode.window.activeColorTheme.kind;
@@ -189,21 +189,18 @@ function resolveAppTheme(): AppTheme {
     .get<string>('colorTheme', '')
     .toLowerCase();
 
-  if (
-    (kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast) &&
-    (themeName.includes('cursor') || themeName.includes('github dark'))
-  ) {
-    return 'cursor-dark';
+  const isDark =
+    kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast;
+
+  if (isDark && themeName.includes('graphite')) {
+    return 'graphite';
   }
 
-  if (
-    (kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast) &&
-    themeName.includes('graphite')
-  ) {
-    return 'graphite-dark';
+  if (isDark) {
+    return 'dark';
   }
 
-  return 'cursor-light';
+  return 'light';
 }
 
 export async function extractEntityNameFromFile(filePath: string): Promise<string | undefined> {

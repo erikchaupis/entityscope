@@ -1,4 +1,4 @@
-export type AppTheme = 'graphite-dark' | 'cursor-dark' | 'cursor-light';
+export type AppTheme = 'light' | 'dark' | 'graphite';
 
 export type RelationType =
   | 'ONE_TO_ONE'

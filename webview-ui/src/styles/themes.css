@@ -1,5 +1,5 @@
-/* Cursor Light — default */
-[data-theme='cursor-light'] {
+/* Light — default */
+[data-theme='light'] {
   --ev-background: #ffffff;
   --ev-node: #f6f8fa;
   --ev-border: #d0d7de;
@@ -36,8 +36,8 @@
   --ev-tooltip-fg: #f0f6fc;
 }
 
-/* Graphite Dark */
-[data-theme='graphite-dark'] {
+/* Graphite */
+[data-theme='graphite'] {
   --ev-background: #2b2b2b;
   --ev-node: #3c3f41;
   --ev-border: #555555;
@@ -74,8 +74,8 @@
   --ev-tooltip-fg: #bbbbbb;
 }
 
-/* Cursor Dark */
-[data-theme='cursor-dark'] {
+/* Dark */
+[data-theme='dark'] {
   --ev-background: #0d1117;
   --ev-node: #161b22;
   --ev-border: #30363d;

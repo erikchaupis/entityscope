@@ -1,6 +1,5 @@
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
-import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { buildPackageColorMap, getPackageColorForEntity, getPackageColorVar } from '@/lib/packageColors';
 import { cn, getTopLevelPackage } from '@/lib/utils';
@@ -40,24 +39,8 @@ export function PackageNav({
   const sortedPackages = [...packages.entries()].sort(([a], [b]) => a.localeCompare(b));
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="px-3 py-2.5 border-b border-border flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-package">
-          Packages
-        </span>
-        {selectedPackage && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-6 px-2 text-xs"
-            onClick={() => onFocusPackage(null)}
-          >
-            Clear
-          </Button>
-        )}
-      </div>
-      <ScrollArea className="flex-1">
-        <div className="p-2 space-y-0.5">
+    <ScrollArea className="h-full min-h-0">
+      <div className="px-1.5 py-2 space-y-0.5">
           {sortedPackages.map(([pkg, pkgEntities]) => {
             const isExpanded = expandedPackages.has(pkg);
             const isFocused = selectedPackage === pkg;
@@ -125,8 +108,7 @@ export function PackageNav({
               </div>
             );
           })}
-        </div>
-      </ScrollArea>
-    </div>
+      </div>
+    </ScrollArea>
   );
 }

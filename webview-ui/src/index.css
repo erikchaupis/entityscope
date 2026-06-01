@@ -6,16 +6,16 @@
 
 @layer base {
   :root {
-    /* Default — Cursor Light */
+    /* Default — Light */
     color-scheme: light;
   }
 
-  [data-theme='cursor-light'] {
+  [data-theme='light'] {
     color-scheme: light;
   }
 
-  [data-theme='graphite-dark'],
-  [data-theme='cursor-dark'] {
+  [data-theme='dark'],
+  [data-theme='graphite'] {
     color-scheme: dark;
   }
 }
@@ -25,11 +25,16 @@
     @apply border-border;
   }
 
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    margin: 0;
-    overflow: hidden;
   }
 }
 
@@ -41,7 +46,15 @@
 
 #root {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Radix ScrollArea: avoid extra horizontal gutter in sidebars */
+[data-radix-scroll-area-viewport] > div {
+  display: block !important;
+  min-width: 100% !important;
 }
 
 /* Entity graph nodes */

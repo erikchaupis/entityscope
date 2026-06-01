@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="media/logo.jpeg" alt="EntityScope" width="480" />
+  <img src="media/logo.jpeg" alt="EntityScope" width="100" />
 </p>
 
 <p align="center">
@@ -7,33 +7,21 @@
   Published for <strong>VS Code Marketplace</strong> and <strong>Open VSX</strong> (Cursor and compatible editors).
 </p>
 
-<p align="center">
-  <img src="media/icon.jpeg" alt="EntityScope icon" width="96" />
-</p>
-
 EntityScope scans Java projects, discovers entities and their relationships, and renders an interactive graph for domain exploration — not UML generation.
 
-## Install
+## Demo
 
-| Platform | Where to get it |
-|----------|-----------------|
-| **VS Code** | [Visual Studio Marketplace](https://marketplace.visualstudio.com/) — search **EntityScope** |
-| **Cursor & Open VSX editors** | [Open VSX Registry](https://open-vsx.org/) — search **EntityScope** |
+**JPA entities** (`@Entity` annotations):
 
-After install, look for the **EntityScope** icon in the Activity Bar (entity diagram with magnifying glass).
+<p align="center">
+  <img src="https://raw.githubusercontent.com/erikchaupis/entityscope/main/docs/demo/java.gif" alt="EntityScope exploring a JPA domain model" width="900">
+</p>
 
-## Branding
+**Hibernate XML** (`*.hbm.xml` mappings):
 
-Official colors used in the logo and UI accents:
-
-| Color | Usage |
-|-------|--------|
-| Navy `#1e3a5f` | Primary text, connections, magnifying glass |
-| Blue `#3b82f6` | Package / entity accents |
-| Orange `#f97316` | **Scope** highlight, secondary accents |
-| Green `#22c55e` | Relationship accents |
-
-Full branding sheet: [`media/entityscope-branding.png`](media/entityscope-branding.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/erikchaupis/entityscope/main/docs/demo/java.gif" alt="EntityScope exploring a Hibernate XML domain model" width="900">
+</p>
 
 ## Features
 
@@ -109,14 +97,30 @@ npm run validate:hibernate-sample
 Java / HBM Project → ModelScanner → DomainModel → JSON → React WebView
 ```
 
-## Publishing assets
+## Packaging (VS Code & Cursor)
 
-| File | Purpose |
-|------|---------|
-| `media/icon.png` | Marketplace / Open VSX extension icon (128×128) |
-| `media/icon-256.png` | High-resolution listing asset |
-| `media/entity-scope.svg` | Activity Bar icon |
-| `media/entityscope-branding.png` | Full branding reference |
+Same `.vsix` works in both editors. Build before packaging so the webview bundle is included:
+
+```bash
+npm run build
+npm run verify:package   # ensures webview-ui/dist is in the VSIX manifest
+npx @vscode/vsce package
+```
+
+Install the generated `.vsix` via **Extensions: Install from VSIX…** in either editor.
+
+## Install
+
+| Platform | Where to get it |
+|----------|-----------------|
+| **VS Code** | [Visual Studio Marketplace](https://marketplace.visualstudio.com/) — search **EntityScope** |
+| **Cursor & Open VSX editors** | [Open VSX Registry](https://open-vsx.org/) — search **EntityScope** |
+
+After install, look for the **EntityScope** icon in the Activity Bar (entity diagram with magnifying glass).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes and the full feature list.
 
 ## License
 

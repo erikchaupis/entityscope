@@ -55,3 +55,6 @@ coverage/
 # --- Generated branding intermediates (sources kept: icon.png, entityscope-branding.png) ---
 media/icon-crop.png
 media/activity-icon.png
+
+# --- Generated VSIX packages ---
+entity-scope-*.vsix

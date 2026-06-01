@@ -2,6 +2,7 @@
 .vscode-test/**
 src/**
 webview-ui/**
+!webview-ui/dist/**
 node_modules/**
 .gitignore
 esbuild.js
@@ -12,3 +13,5 @@ tsconfig.json
 !media/**
 media/icon-crop.png
 media/activity-icon.png
+
+docs/**

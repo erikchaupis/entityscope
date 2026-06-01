@@ -6,11 +6,24 @@ interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  /** Inline in the top toolbar (no extra border/background). */
+  embedded?: boolean;
 }
 
-export function SearchBar({ value, onChange, placeholder = 'Search entities or tables...' }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChange,
+  placeholder = 'Search entities or tables...',
+  embedded = false,
+}: SearchBarProps) {
   return (
-    <div className="relative flex items-center gap-2 px-4 py-3 border-b border-border bg-card">
+    <div
+      className={
+        embedded
+          ? 'relative flex flex-1 items-center gap-2 px-2 py-1.5 min-w-0'
+          : 'relative flex items-center gap-2 px-4 py-3 border-b border-border bg-card'
+      }
+    >
       <Search className="h-4 w-4 text-muted-foreground shrink-0" />
       <Input
         value={value}

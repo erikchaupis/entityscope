@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ChevronRight, Loader2, PanelLeft, PanelLeftClose } from 'lucide-react';
+import { ChevronRight, Loader2, Minus, PanelLeft, PanelLeftClose, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { SearchBar } from '@/components/SearchBar';
 import { PackageNav } from '@/components/PackageNav';
 import { EntityGraph } from '@/components/EntityGraph';
@@ -8,7 +14,7 @@ import { DetailsPanel } from '@/components/DetailsPanel';
 import { ToolbarActions } from '@/components/ToolbarActions';
 import { useVsCodeApi, useExtensionMessages } from '@/hooks/useVsCodeApi';
 import { useTheme, DEFAULT_THEME, applyTheme } from '@/hooks/useTheme';
-import { cn } from '@/lib/utils';
+import { getTopLevelPackage } from '@/lib/utils';
 import type { AppTheme, DomainModelJson } from '@/types';
 
 export default function App() {
@@ -93,6 +99,25 @@ export default function App() {
     });
   };
 
+  const allPackageKeys = useMemo(() => {
+    if (!model) {
+      return [] as string[];
+    }
+    const keys = new Set<string>();
+    for (const entity of model.entities) {
+      keys.add(getTopLevelPackage(entity.package));
+    }
+    return [...keys];
+  }, [model]);
+
+  const handleExpandAllPackages = useCallback(() => {
+    setExpandedPackages(new Set(allPackageKeys));
+  }, [allPackageKeys]);
+
+  const handleCollapseAllPackages = useCallback(() => {
+    setExpandedPackages(new Set());
+  }, []);
+
   const handleFilterPackage = (pkg: string | null) => {
     setPackageFilter(pkg);
   };
@@ -174,53 +199,71 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col ui-sans">
-      <div className="flex items-center border-b border-border bg-card">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0 ml-1"
-          onClick={() => setPackageSidebarOpen((open) => !open)}
-          title={packageSidebarOpen ? 'Hide packages panel' : 'Show packages panel'}
-          aria-label={packageSidebarOpen ? 'Hide packages panel' : 'Show packages panel'}
-          aria-expanded={packageSidebarOpen}
-        >
-          {packageSidebarOpen ? (
-            <PanelLeftClose className="h-4 w-4" />
-          ) : (
-            <PanelLeft className="h-4 w-4" />
-          )}
-        </Button>
-        <div className="flex-1 min-w-0">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
-        </div>
-        <ToolbarActions
-          showProperties={showProperties}
-          onToggleProperties={() => setShowProperties((v) => !v)}
-          theme={theme}
-          onThemeChange={(next) => {
-            themeManuallySet.current = true;
-            applyTheme(next);
-            setTheme(next);
-          }}
-          onRefresh={handleRefresh}
-          entityCount={model?.entities.length}
-          detailsOpen={detailsOpen}
-          canShowDetails={selectedEntity !== null}
-          onToggleDetails={handleToggleDetails}
-        />
-      </div>
-
-      <div className="flex flex-1 min-h-0 relative">
-        {model && (
+    <div className="h-screen flex flex-col ui-sans overflow-hidden">
+      <div className="flex flex-1 min-h-0 min-w-0">
+        {model && packageSidebarOpen && (
           <aside
-            aria-hidden={!packageSidebarOpen}
-            className={cn(
-              'shrink-0 flex flex-col overflow-hidden transition-[width] duration-200 ease-in-out border-r border-border bg-card',
-              packageSidebarOpen ? 'w-52' : 'w-0 border-transparent'
-            )}
+            className="w-52 shrink-0 flex flex-col border-r border-border bg-card min-h-0"
+            aria-label="Packages"
           >
-            <div className="w-52 h-full min-h-0 flex flex-col">
+            <div className="flex items-center gap-0.5 px-1 py-1.5 border-b border-border shrink-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0"
+                onClick={() => setPackageSidebarOpen(false)}
+                title="Hide packages panel"
+                aria-label="Hide packages panel"
+              >
+                <PanelLeftClose className="h-4 w-4" />
+              </Button>
+              <span className="flex-1 text-xs font-semibold uppercase tracking-wider text-package truncate pl-0.5">
+                Packages
+              </span>
+              <TooltipProvider delayDuration={300}>
+                <div className="flex items-center gap-0.5 shrink-0">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-7 w-7 rounded-sm shrink-0"
+                        onClick={handleExpandAllPackages}
+                        aria-label="Expand all"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">Expand all</TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-7 w-7 rounded-sm shrink-0"
+                        onClick={handleCollapseAllPackages}
+                        aria-label="Collapse all"
+                      >
+                        <Minus className="h-3.5 w-3.5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">Collapse all</TooltipContent>
+                  </Tooltip>
+                </div>
+              </TooltipProvider>
+              {packageFilter && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2 text-xs shrink-0"
+                  onClick={() => handleFilterPackage(null)}
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+            <div className="flex-1 min-h-0">
               <PackageNav
                 entities={model.entities}
                 expandedPackages={expandedPackages}
@@ -234,41 +277,74 @@ export default function App() {
           </aside>
         )}
 
-        <div className="flex flex-1 min-w-0 min-h-0 relative">
-          {!packageSidebarOpen && (
-            <button
-              type="button"
-              className="absolute left-0 top-1/2 z-20 flex h-14 w-[18px] -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-border bg-card text-muted-foreground shadow-sm hover:bg-accent hover:text-foreground transition-colors"
-              onClick={() => setPackageSidebarOpen(true)}
-              title="Show packages"
-              aria-label="Show packages"
-            >
-              <ChevronRight className="h-3.5 w-3.5" />
-            </button>
-          )}
-
-          {model && (
-            <EntityGraph
-              entities={model.entities}
-              relations={model.relations}
-              selectedEntity={selectedEntity}
-              searchQuery={searchQuery}
-              packageFilter={packageFilter}
+        <div className="flex flex-1 flex-col min-w-0 min-h-0">
+          <div className="flex items-center border-b border-border bg-card shrink-0">
+            {model && !packageSidebarOpen && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0 ml-0.5"
+                onClick={() => setPackageSidebarOpen(true)}
+                title="Show packages panel"
+                aria-label="Show packages panel"
+              >
+                <PanelLeft className="h-4 w-4" />
+              </Button>
+            )}
+            <SearchBar embedded value={searchQuery} onChange={setSearchQuery} />
+            <ToolbarActions
               showProperties={showProperties}
-              onSelectEntity={handleSelectEntity}
-              entityActions={entityActions}
+              onToggleProperties={() => setShowProperties((v) => !v)}
+              theme={theme}
+              onThemeChange={(next) => {
+                themeManuallySet.current = true;
+                applyTheme(next);
+                setTheme(next);
+              }}
+              onRefresh={handleRefresh}
+              entityCount={model?.entities.length}
+              detailsOpen={detailsOpen}
+              canShowDetails={selectedEntity !== null}
+              onToggleDetails={handleToggleDetails}
             />
-          )}
+          </div>
 
-          {detailsEntityData && (
-            <DetailsPanel
-              entity={detailsEntityData}
-              relations={model?.relations ?? []}
-              onClose={handleCloseDetails}
-              onOpenSource={handleOpenSource}
-              onSelectEntity={handleShowDetails}
-            />
-          )}
+          <div className="flex flex-1 min-h-0 min-w-0 relative">
+            {model && !packageSidebarOpen && (
+              <button
+                type="button"
+                className="absolute left-0 top-1/2 z-20 flex h-14 w-[18px] -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-border bg-card text-muted-foreground shadow-sm hover:bg-accent hover:text-foreground transition-colors"
+                onClick={() => setPackageSidebarOpen(true)}
+                title="Show packages"
+                aria-label="Show packages"
+              >
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            )}
+
+            {model && (
+              <EntityGraph
+                entities={model.entities}
+                relations={model.relations}
+                selectedEntity={selectedEntity}
+                searchQuery={searchQuery}
+                packageFilter={packageFilter}
+                showProperties={showProperties}
+                onSelectEntity={handleSelectEntity}
+                entityActions={entityActions}
+              />
+            )}
+
+            {detailsEntityData && (
+              <DetailsPanel
+                entity={detailsEntityData}
+                relations={model?.relations ?? []}
+                onClose={handleCloseDetails}
+                onOpenSource={handleOpenSource}
+                onSelectEntity={handleShowDetails}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

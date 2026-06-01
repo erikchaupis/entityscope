@@ -1,9 +1,9 @@
 {
-  "name": "entity-viewer",
+  "name": "entity-scope",
   "displayName": "EntityScope",
   "description": "EntityScope — interactive domain model explorer for JPA and Hibernate XML entity mappings in VS Code and Cursor.",
   "version": "0.1.0",
-  "publisher": "entity-viewer",
+  "publisher": "erikchaupis",
   "license": "Apache-2.0",
   "homepage": "https://github.com/erikchaupis/entityscope#readme",
   "repository": {
@@ -13,7 +13,7 @@
   "bugs": {
     "url": "https://github.com/erikchaupis/entityscope/issues"
   },
-  "icon": "media/icon.png",
+  "icon": "media/logo.jpeg",
   "galleryBanner": {
     "color": "#1e3a5f",
     "theme": "dark"
@@ -116,7 +116,8 @@
     "watch": "node esbuild.js --watch",
     "watch:webview": "cd webview-ui && npm run dev",
     "install:all": "npm install && cd webview-ui && npm install",
-    "validate:hibernate-sample": "tsx scripts/validate-hibernate-sample.ts"
+    "validate:hibernate-sample": "tsx scripts/validate-hibernate-sample.ts",
+    "verify:package": "npx @vscode/vsce ls 2>/dev/null | grep -q 'webview-ui/dist/assets/index.js' || (echo 'ERROR: webview assets missing from VSIX — check .vscodeignore' >&2 && exit 1)"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

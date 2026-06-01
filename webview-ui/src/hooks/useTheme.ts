@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import type { AppTheme } from '@/types';
 
-export const THEMES: AppTheme[] = ['cursor-light', 'graphite-dark', 'cursor-dark'];
+export const THEMES: AppTheme[] = ['light', 'dark', 'graphite'];
 
 export const THEME_LABELS: Record<AppTheme, string> = {
-  'cursor-light': 'Cursor Light',
-  'graphite-dark': 'Graphite Dark',
-  'cursor-dark': 'Cursor Dark',
+  light: 'Light',
+  dark: 'Dark',
+  graphite: 'Graphite',
 };
 
-export const DEFAULT_THEME: AppTheme = 'cursor-light';
+export const DEFAULT_THEME: AppTheme = 'light';
 
 export function applyTheme(theme: AppTheme) {
   document.documentElement.setAttribute('data-theme', theme);
