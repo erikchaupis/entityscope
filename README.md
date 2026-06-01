@@ -20,7 +20,7 @@ EntityScope scans Java projects, discovers entities and their relationships, and
 **Hibernate XML** (`*.hbm.xml` mappings):
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/erikchaupis/entityscope/main/docs/demo/java.gif" alt="EntityScope exploring a Hibernate XML domain model" width="900">
+  <img src="https://raw.githubusercontent.com/erikchaupis/entityscope/main/docs/demo/xml.gif" alt="EntityScope exploring a Hibernate XML domain model" width="900">
 </p>
 
 ## Features
